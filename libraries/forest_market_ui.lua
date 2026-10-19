@@ -160,13 +160,13 @@ end
 
 function Library:CreateWindow(config)
     config = config or {}
-    local guiParent = CoreGui
-    pcall(function()
-        local test = Instance.new("Folder")
-        test.Parent = CoreGui
-        test:Destroy()
+    local guiParent = nil
+    local canUseCoreGui = pcall(function()
+        local probe = Instance.new("Folder")
+        probe.Parent = CoreGui
+        probe:Destroy()
     end)
-    if not guiParent then guiParent = LocalPlayer:WaitForChild("PlayerGui") end
+    guiParent = canUseCoreGui and CoreGui or LocalPlayer:WaitForChild("PlayerGui")
 
     local old = guiParent:FindFirstChild("MotionCoreForestMarketUI")
     if old then old:Destroy() end
